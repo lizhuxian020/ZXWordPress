@@ -1,6 +1,6 @@
 ---
 ID: 111
-post_title: Mac 各种命令
+post_title: Mac 各种命令1
 author: lizhuxian020@gmail.com
 post_excerpt: ""
 layout: post
