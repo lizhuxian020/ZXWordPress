@@ -91,11 +91,11 @@ post_date: 2017-11-14 09:55:03
 
 ```
 
----
+\-\-\-
 post_title: 'Post Title'
 layout: post_type_probably_post
 published: true_or_false
----
+\-\-\-
 Post goes here.
 
 ```
