@@ -68,8 +68,6 @@ post_date: 2017-11-14 09:55:03
 
 1. 去你的GitHub的repo地址(不是在骂人), 找到setting, 找到Webhook, 然后设置, 如下
 2. ![GitHub_Webhook_setting](https://leezix13.com/wordpress/wp-content/uploads/2017/11/GitHub_Webhook_setting.png)
-
-
 最后大功告成, 回到WordPress setting GitHub Sync的页面, 点击Export to GitHub, 然后你的空仓库就会多了点东西了, 然后你的文章都在_posts文件夹里
 ![after_export](https://leezix13.com/wordpress/wp-content/uploads/2017/11/after_export.png)
 
