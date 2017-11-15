@@ -90,12 +90,14 @@ post_date: 2017-11-14 09:55:03
 需要创建一个符合WordPress格式的文件, 才能正常显示在WordPress上的. 格式如下:
 
 ```
+
 ---
 post_title: 'Post Title'
 layout: post_type_probably_post
 published: true_or_false
 ---
 Post goes here.
+
 ```
 layout一般写post, title写文章标题, 去掉单引号, published写true或者false, 表示是否公开
 
