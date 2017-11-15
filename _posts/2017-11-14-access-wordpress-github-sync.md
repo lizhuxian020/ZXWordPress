@@ -42,7 +42,7 @@ post_date: 2017-11-14 09:55:03
 2. 把zip包上传到服务器, 使用sftp
     1. `sftp -oPort=12312 root@host`
     2. 输入密码, 然后如下: 
-    4. ![terminal_sftp_put](media/15106531958316/terminal_sftp_put.png)
+    4. ![terminal_sftp_put](https://leezix13.com/wordpress/wp-content/uploads/2017/11/terminal_sftp_put.png)
 3. 然后把zip包解压到这个路径下`/wp-content/plugins/`(这里我不懂官方要我解压到`/wp-content/plugins/ directory`, 可是我没这个路径, 就算创建了directory, 把插件放进去也没生效=.=, 可能是我小伙伴安装WordPress方式不对😝)
 4. 然后去你的WordPress Dashboard就激活就好啦.
 
@@ -52,13 +52,13 @@ post_date: 2017-11-14 09:55:03
 1. 去这个网址, 创建你的OAuth Token
     1. [Create OAuth Token](https://github.com/settings/tokens/new)
     2. 这个相当于生成一个字符串, 当你的账号密码使用, 待会需要你给这个字符串赋予什么功能
-    3. ![create_oauth_token](media/15106531958316/create_oauth_token.png)
+    3. ![create_oauth_token](https://leezix13.com/wordpress/wp-content/uploads/2017/11/create_oauth_token.jpg)
     4. 其他scopes可以不用选, 必须要选public_repo, 然后拉倒最下面直接create就好了.
     5. 最后生成一个40位的字符串. 要把它记下来, 贴在其他地方都好. 因为关了这个页面你就再也见不到它了.
 2. 配置你的WordPress
     1. 在你的Dashboard里, setting->GitHub Sync
-    2. ![WordPress_setting](media/15106531958316/WordPress_setting.png)
-    3. ![WordPress_setting_content](media/15106531958316/WordPress_setting_content.png)
+    2. ![WordPress_setting](https://leezix13.com/wordpress/wp-content/uploads/2017/11/WordPress_setting.png)
+    3. ![WordPress_setting_content](https://leezix13.com/wordpress/wp-content/uploads/2017/11/WordPress_setting_content.png)
     4. 没有仓库的就去创建仓库, 我等穷人只能创建public的, 你也可以创建private, 创建完之后, 你自己随便改点东西, push上去, 使得他有个init commit, (网上是这么说的, 不知道我有没有理解错)
     4. 我之所以说我用了太多时间, 是因为我第一项就填错了, 填成https://github.com, 大家不要学我, 我是看了这个才知道我填错了: [GitHub Development](https://developer.github.com/v3/guides/)
 
@@ -67,10 +67,10 @@ post_date: 2017-11-14 09:55:03
 > Webhook是什么? 有待探讨哈
 
 1. 去你的GitHub的repo地址(不是在骂人), 找到setting, 找到Webhook, 然后设置, 如下
-2. ![GitHub_Webhook_setting](media/15106531958316/GitHub_Webhook_setting.png)
+2. ![GitHub_Webhook_setting](https://leezix13.com/wordpress/wp-content/uploads/2017/11/GitHub_Webhook_setting.png)
 
 最后大功告成, 回到WordPress setting GitHub Sync的页面, 点击Export to GitHub, 然后你的空仓库就会多了点东西了, 然后你的文章都在_posts文件夹里
-![after_export](media/15106531958316/after_export.png)
+![after_export](https://leezix13.com/wordpress/wp-content/uploads/2017/11/after_export.png)
 
 但是呢, 你会发现, 这特么的都是HTML格式的, 老子要写MarkDown, 不是HTML!
 
