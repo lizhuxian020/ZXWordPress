@@ -1,8 +1,8 @@
-\-\-\-
+---
 post_title: GitHub Developer
 layout: post
 published: true
-\-\-\-
+---
 
 # GitHub Developer
 
