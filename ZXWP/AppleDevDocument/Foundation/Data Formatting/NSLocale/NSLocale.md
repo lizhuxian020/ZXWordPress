@@ -1,0 +1,9 @@
+#NSLocale
+
+###Overview
+你可以用一个locale去格式化(format)或者解释一些信息, 这些信息关于和来自用户的习惯和偏好
+
+你可以初始化一些locale实例, 通过使用initWithLocaleIdentifier:, 使用availableLocaleIdentifiers array里的一个identify. 然而你通常会使用一个配置好了的locale去匹配当前用户的偏好
+
+使用currentLocale属性去获得已经匹配到当前用户偏好的locale. 如果当用户对区域设置做了修改时你需要提示的话, 注册 NSCurrentLocaleDidChangeNotification这个通知. 如果不是, 你可以使用autoupdatingCurrentLocale 属性来获取locale,他会随着用户配置设置自动更新
+
