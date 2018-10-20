@@ -11,8 +11,9 @@
 
 * 使用[UIImage imgaeName:@""]来加载图片, 会一直存在内存当中!
 * CornerRadius的意思如下:
-    * ![WX20180614-173755](media/15273196722622/WX20180614-173755.png)
-* 
+    * ![picName](ImageSet/1.png)
+
+
 
 
 # RunTime
@@ -86,4 +87,5 @@ void aaa(id self, SEL _cmd, NSNumber *meter) {
     * 记得加入`s.static_framework = true  //不加这个就报错=.=`
 * 使用pod lib create命令来创建自己pod库
 * pch文件要先声明在podspec里, 加入`s.prefix_header_file = 'KMTGlobe/Classes/Interface/Macro/Macro.h'`来声明pch文件
+
 
