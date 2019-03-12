@@ -164,5 +164,24 @@ onBridgeMessage(message) {
 
 ####RN发送消息
 * 拿到RN组件的ref, 调用`ref.sendToBridge("hello from react-native")`
-* 走到index.ios.js, 
+* 走到index.ios.js, 调动`WebViewBridgeManager.sendToBridge(this.getWebViewBridgeHandle(), message);`
+    * WebViewBridgeManager一个Native暴露的module, RCTWebViewBridgeManager, 这里调用了Native方法sendToBridge
+    * 这里通过reactTag拿到RCTWebViewBridge, 然后调用他的sendToBridge
+        * 这里调用JS方法,通过NSString拼接, 把message带进代码里
+        * 调用JS的, `WebViewBridge.__push__(message)`
+* \_\_push\_\_
 
+    ```js
+      receiveQueue.push(message);
+      //reason I need this setTmeout is to return this function as fast as
+      //possible to release the native side thread.
+      setTimeout(function () {
+        var message = receiveQueue.pop();
+        callFunc(WebViewBridge.onMessage, message);
+      }, 15); //this magic number is just a random small value. I don't like 0.
+    ```
+    * 把message入栈到receiveQueue
+    * 在异步调用callFunc, 从receiveQueue出栈一个message作为入参
+    * 在调用`WebViewBridge.onMessage`
+        * 这个方法是在RN里通过injectedJavaScript(嵌入JS)来给WebViewBridge添加的.
+* <font color='red'>完成RN发送消息给H5</font>
