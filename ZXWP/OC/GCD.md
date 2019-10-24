@@ -85,3 +85,20 @@ syncQueue = dispatch_queue_create("asd", DISPATCH_QUEUE_SERIAL);
 2019-09-29 10:04:13.808765+0800 GCD[38348:1638337] asd3 + <NSThread: 0x60000228be80>{number = 3, name = (null)}
 
 ```
+
+#dispatch_semaphore_t
+可以用于iOS同步调用异步
+```
+dispatch_semaphore_t semaphore = dispatch_semaphore_create(0)
+
+[self asyncAction:^{
+    ...do something
+    //发送signal
+    dispatch_semaphore_signal(semaphore);
+}]
+
+//这里会阻塞当前线程
+dispatch_semaphore_wait(semaphore)
+
+...continue do;
+```
