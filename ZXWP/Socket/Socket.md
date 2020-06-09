@@ -1,8 +1,9 @@
 # Socket
 1. 任意两个套接字决定一个 TCP 连接
 2. Socket 是对 TCP和 UDP 的封装, 使得开发者可以直接使用 TCP 或 UDP. 位于应用层和运输层之间.
-3. Socket 是网络通信的基本操作单元
-4. 应用开发者无法直接操作运输层, 只能通过 Socket 对运输层进行操作.
+3. Socket 是网络通信的基本操作单元(Socket 是网络通讯的基石)
+4. 应用开发者无法直接操作运输层, 只能通过 Socket 对运输层进行操作.(Socket 实际上是一套 API)
+
 
 ## 服务器和客户端启动 Socket
 ![](media/15628551966769.jpg)
@@ -28,4 +29,4 @@
 1. iOS 是基于 UNIX 系统开发出来的. UNIX 使用 BSDSocket, 所以 iOS 也能支持BSDSocket
 2. Core Foundation 对 BSDSocket 实现一套封装, CFSocket, 能实现大部分 BSDSocket 功能
 3. 并把 Socket 集成到"运行循环"中
-4. 
+4. 在传输数据的时候如果只是使用 TCP/IP 协议是没有意义的, 因为无法识别数据的类型和内容. 必须要加上应用层协议, 才使得数据具有意义.

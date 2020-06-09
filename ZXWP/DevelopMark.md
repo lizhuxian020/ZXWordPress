@@ -91,3 +91,32 @@ void aaa(id self, SEL _cmd, NSNumber *meter) {
 * 所有类的 load 方法都会被调用，先调用父类、再调用子类，多个分类会按照Compile Sources 顺序加载。但是Initialize 方法会被覆盖，子类父类分类中只会执行一个
 * load 方法内部一般用来实现 Method Swizzle，Initialize方法一般用来初始化全局变量或者静态变量
 * 两个方法都不能主动调用，也不需要通过 super 继承父类方法，但是 Initialize 方法会在子类没有实现的时候调用父类的该方法，而 load 不会
+
+#一个或以上的入参, 方法声明和使用
+![](media/15836512236585.jpg)
+```c
+- (instancetype)initWithTitle:(nullable NSString *)title message:(nullable NSString *)message delegate:(nullable id /*<UIAlertViewDelegate>*/)delegate cancelButtonTitle:(nullable NSString *)cancelButtonTitle otherButtonTitles:(nullable NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION NS_EXTENSION_UNAVAILABLE_IOS("Use UIAlertController instead.");
+```
+
+方法实现
+```c
+- (void)ZXLog:(NSString *)log, ...{
+    NSMutableArray *mutablArr = [[NSMutableArray alloc]initWithCapacity:5];
+    
+    va_list arglist;
+    va_start(arglist, log);
+    
+    NSLog(@"%@",log);//1
+    [mutablArr addObject:log];
+    
+    id arg;
+    while ((arg = va_arg(arglist, id))) {
+        NSLog(@"%@",arg);//2,3,4
+        [mutablArr addObject:arg];
+        
+    }
+    va_end(arglist);
+}
+
+[self ZXLog:@"asd", @"qwe", @"zxc", @"das", @"rew", NSObject.new ];
+```

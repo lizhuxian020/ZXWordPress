@@ -1,5 +1,6 @@
 # DES 数据加密标准
-1. 64位(8字节)为一组, 进行分组加密. 秘钥也是64位的, 但实际有效只有56位, 其他事校验位
+1. Data Encryption Standard
+2. 64位(8字节)为一组, 进行分组加密. 秘钥也是64位的, 但实际有效只有56位, 其他事校验位
 
 ## MODE(分组处理模式)
 1. 常用的mode有ECB（Electronic Codebook, 电码本）, CBC(Cipher-block chaining, 密码分组链接). 还有其他模式, 不记了.

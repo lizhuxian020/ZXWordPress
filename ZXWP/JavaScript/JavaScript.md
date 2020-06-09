@@ -10,7 +10,7 @@
 4. 对象是一个"属性的集合"
 5. 每个方法都有一个属性protoType
 6. 每个对象都有一个__proto__属性, 指向创建该对象函数的protoType
-    1. {}, 自定义function的__proto__指向Object.protoType, 因为他们都是Object创建的
+    1. {}, 的__proto__指向Object.protoType, 因为他们都是Object创建的
     2. <font color='red'>Object.protoType.__proto__指向null!!切记!!</font>
     3. ![](media/15671475698471.jpg)
     4. 自定义function, 是由Function创建出来的, `let fn = new Function('x', 'y', 'return x + y')`
