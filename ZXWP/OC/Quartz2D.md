@@ -546,3 +546,18 @@ path = [path stringByAppendingPathComponent:@"xxx.png"];
 NSData *data = UIImagePNGRepresentation(imageObject);
 [data writeToFile:path atomically:YES];
 ```
+
+#给任意角制圆角
+```
+UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:_view.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(20, 20)];
+CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+maskLayer.frame = _view.bounds;
+maskLayer.path = path.CGPath;
+_view.layer.mask = maskLayer;
+```
+1. 不用上下文
+2. 利用view.layer.mask, 制作一个指定圆角的layer, 覆盖到view上面
+3. CAShapeLayer是根据CGPath来画图的layer
+    1. 就是画出如何的path, layer就如何
+        1. 都是在一次性画出图的情况下, 画圆形, 矩形, 圆角矩形等等
+        2. 多画几条线没有试
