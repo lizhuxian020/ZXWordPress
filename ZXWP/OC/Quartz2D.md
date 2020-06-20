@@ -557,6 +557,7 @@ _view.layer.mask = maskLayer;
 ```
 1. 不用上下文
 2. 利用view.layer.mask, 制作一个指定圆角的layer, 覆盖到view上面
+    1. 使用mask属性替换layer, 不会影响子组件的展示, 前提layer的rect能覆盖子组件
 3. CAShapeLayer是根据CGPath来画图的layer
     1. 就是画出如何的path, layer就如何
         1. 都是在一次性画出图的情况下, 画圆形, 矩形, 圆角矩形等等
