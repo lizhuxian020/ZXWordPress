@@ -73,3 +73,5 @@ UITouchType在IOS9.1以后多了笔尖, Apple Pencil
 ##infoPlist的key
 NSPhotoLibraryAddUsageDescription是iOS 11新推出的隐私规则
 当使用`UIImageWriteToSavedPhotosAlbum`来保存图片到相册上, 则要求这个key, 否则crash
+
+##全屏从ios11开始

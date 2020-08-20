@@ -24,12 +24,13 @@
 ###所需要做的事情:
 1. 整理公共模块库(Base).
 2. 整理业务库, 以XX为一个模块, 该模块的依赖.
-3. 配置项 | 资源文件
+3. 配置项 | 资源文件 (配置文件的读取逻辑有待讨论)
     1. ![-w249](media/15928797887019.jpg)
-    2. 图片(是否跟着业务模块走)
+    2. 图片(是否跟着业务模块走):  
         1. 目前所有target都有一个自己的Asset, 而且多数都是重复的. 虽然不会影响每个target打出的包, 但会影响工程仓库的重量.
         2. 业务库必不可免的引用图片资源, 但在Pod库里, 如果要存放自己业务所需的图片, 只能存在在某个文件夹里, 以`ContentOfFile`方法使用, 该方法不影响1X,2X,3X的选取机制, 当然也能像以前一样正常引用主工程里Asset, 只是图片和业务代码分开了.
             1. 建议: 把业务模块所需图片跟着业务走. 公共图片跟着基础模块走. 如需要定制, 把定制图片以同名的方式存放到主工程的Assset.
+            2. 但是这样会出现
     3. 颜色 | 字体(是否跟着业务模块走)
         1. 目前颜色和字体都是C1~C10, T1~T10, 这样的形势出现. 我所理解的模块化, 是每个模块都有自己的配置文件, 里面清晰的表明哪个地方使用着什么颜色. 比如首页模块里的配置文件写着`{"Home_BgColor": "C1", "Home_ItemFont": "T1"}`, 这样一目了然知道该模块有什么配置项, 然后修改即可.
         2. 如果保持目前状况, 可以在基础模块存放字体 | 颜色等配置文件, 如果需要定制, 则在主工程也存放个同名的文件, 修改对应的key值即可.
@@ -63,3 +64,65 @@
 3. 如果每个模块都有单独仓库, 那日后客户如有大的定制需求, 那可以在这个模块另起分支. 在原有的模块基础上, 单独给这个客户定制他所需的模块.
 4. 综上所述:
     1. 如果不单独建仓库, 和在原工程上新建文件夹重新整理代码结构没什么区别. 如果模块解耦的好的话, 就方便导入和移除业务代码.
+5. 日后模块化如果成功完成的话, 模块就可以自己独立迭代, 发展自己的版本, 比如日后可能会有UGC2.0等等. 
+
+##模块化后Podfile如下
+```
+use_frameworks!
+inhibit_all_warnings!
+# platform :ios, '9.0'
+
+abstract_target 'Common_Pods' do
+    # 公用Pods
+    pod 'Masonry'
+    pod 'MJRefresh'
+    pod 'MJExtension', '3.2.1'
+    pod 'SDWebImage'
+    pod 'YYKit'
+    pod 'FMDB'
+    pod 'TZImagePickerController'
+    pod 'FLAnimatedImage'
+    pod 'MBProgressHUD'
+    pod 'IQKeyboardManager'
+    pod 'DZNEmptyDataSet'
+    pod 'AliyunOSSiOS'
+    pod 'Bugly'
+    pod 'UMCCommon'
+    pod 'UMCAnalytics'
+    pod 'UMCSecurityPlugins'
+    pod 'AFNetworking'
+    pod 'BlocksKit'
+    pod 'GTSDK', '2.3.1.0-noidfa'
+    pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
+    pod 'EFQRCode'
+    pod 'ReactiveObjC'
+    pod 'OCSkeleton', '~> 0.5.0'
+    pod 'ZFPlayer', '~> 3.0'
+    pod 'ZFPlayer/ControlView', '~> 3.0'
+    pod 'ZFPlayer/AVPlayer', '~> 3.0'
+    
+    # 对应target使用的库
+    target 'LZM_SmartEdifice' do
+        pod 'ugc'    
+    end
+
+    target 'LZM_DBH' do
+        pod 'LZMPodPublic', :path=>'LZMPodPublic/'
+        pod 'LZMPodProject_A', :path=>'LZMPodProject_A/'
+    end
+
+    target 'LZM_YLH' do
+        
+    end
+    
+    target 'LZM_TR' do
+        
+    end
+    
+    target 'LZM_MeiGuiWan' do
+        
+    end
+end
+
+
+```
