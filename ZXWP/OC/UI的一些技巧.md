@@ -37,3 +37,5 @@
 
 把勾去掉了. 就变成如下:
 ![](media/15845391961868.jpg)
+
+##insertSubview:atIndex:
