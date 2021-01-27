@@ -1,4 +1,11 @@
-# MJRefresh
+# MJRefresh_HEADER
+
+#MJRefreshComponent
+1. moveToSuperView的时候开启监听contentSize, contentOffset
+2. beginRefreshing
+    1. state = refreshing
+3. endRefreshing
+    1. state = idle
 
 ##deprecate注释
 ```
@@ -65,3 +72,80 @@ NS_REQUIRES_SUPER
 ##在scrollViewDidScroll中设置contentInset(实现scrollView上下无限滚动)
 如果在scrollViewDidScroll中设置contentInset = UIEdgeMake(-offset.y,0,0,0)
 然后scrollView.alwaysBounceVertical = YES, 则实现了scrollView上下无限滚动
+
+
+
+#MJRefresh_Footer
+
+##willChangeValueForKey & didChangeValueForKey
+KVO监听的时候, 好像默认只能监听系统设置好的属性
+如果是自己分类加属性, 或者自己子类的属性, 就要在setter里加这个
+```
+- (void)setXXX:(id)xxx {
+    self willChangeValueForKey:xxx
+    _xxx = xxx;
+    self didChangeValueForKey:xxx
+}
+```
+
+##MJRefreshBackFooter
+主要布局在这个类里实现, 通过实现监听contentSize
+当contentSize发生变化的时候, footer的y值发生变化, 要跟在contentSize之后
+###这里有个问题: 
+1. 如果是tableView, 则footer跟在最后一个cell的后面
+2. 但是在iPhoneX系列中, tableView滚到最底下的时候, 最后一个cell不是贴低, 而是在贴在safeBottomArea的上面
+3. 所以这个时候贴在最后一个cell的后面的footer就会漏出来=.=
+4. 解决这个问题就要使用属性ignoredScrollViewContentInsetBottom, 他会影响footer的Y值, 这个值会加载contentSize上, tableView的contentSize多出这么多的size
+5. 当内容少的时候, 就会取scrollView_height作为footer的y值
+
+##setState
+> deltaH: contentSize和scrollView.height的差值, >0则表示可以滚, <0表示滚不了. >0时, 表示滚动deltaH值,到达footer的可视位置(即底部)
+
+1. 当normal->refresh的时候
+    1. 同样设置contentInset, bottom = footer.height
+        1. 这里的bottom需要计算当contentSize<scrollView.height的时候
+    2. 设置contentOffset, 需要在原来基础上家伙加上footer.height, 这样显得自然, 刷新完后不会发生滚动.
+2. 当refresh->normal的时候
+    1. contentInset恢复原状(即footer要消失)
+    2. ![-w636](media/16070748320661.jpg)
+    3. 他这里重新刷新了offsetY, 不知道为什么.=.=
+
+##监听ContentSize
+1. 监听contentSize决定footer的Y值.
+
+##监听contentOffset
+1. 如果offset<deltaH, 则直接return
+2. 否则-> 判断state == noMoreData, 是则return
+3. 否则-> 是否还在dragging(scrollView.isDragging), 
+    1. 如果是设置好pullingPercent((offset-deltaH)/footer.height)
+        1. 判断state是否是idle且offset-deltaH > footer.height
+            1. 是->state=pulling(松手即可刷新)
+        2. 否则->判断state==pulling且offset-deltaH < footer.height
+            1. 是->state=idle
+        3. done;
+    2. done
+4. 否则->(不在dragging), 判断state
+    1. 是否为pulling, 是则beginRefreshing
+    2. 否则->设置好pullingPercent
+
+    
+#MJRefreshAutoFooter: MJRefreshFooter
+直接把contentInset设置成footer.height, 让footer一直在content里面
+    
+##监听contentSize
+通过监听contentSize, 设置footer.Y = contentSize.height
+    
+##监听contentOffset
+要state == idle && 自动加载 && Y值!=0 && 
+content > scrollview.height &&
+offsetY >= contentH - scrollViewH + footerH * triggerAutomaticallyRefreshPercent(超过footer百分之多少加载)
+
+满足上述条件, 则beginRefreshing
+###这里有个问题
+由于contentOffset调用频次很高, 所以可能会出现多次调用beginRefreshing的情况
+: 没得到解决, 有可能会多次调用beginRefresh
+
+##监听scrollView.panGesture.state
+当state == End的时候, 表示手松开了, 这个时候判断contentH是否大于scrollViewH, 如果是, 则判断offset是否大于contentH+footerH, 如果是则refresh
+    
+    
