@@ -236,3 +236,86 @@ _camera = [LZMCamera getCameraWithCaptureSession:^(AVCaptureVideoPreviewLayer * 
 ```
 
 
+#大神写的二维码有效区域
+
+```
+// 该方法中，_preViewLayer指的是AVCaptureVideoPreviewLayer的实例对象，_session是会话对象，_metadataOutput是扫码输出流
+- (void)coverToMetadataOutputRectOfInterestForRect:(CGRect)cropRect {
+    CGSize size = _previewLayer.bounds.size;
+    CGFloat p1 = size.height/size.width;
+    CGFloat p2 = 0.0;
+
+    if ([_session.sessionPreset isEqualToString:AVCaptureSessionPreset1920x1080]) {
+        p2 = 1920./1080.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPreset352x288]) {
+        p2 = 352./288.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPreset1280x720]) {
+        p2 = 1280./720.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetiFrame960x540]) {
+        p2 = 960./540.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetiFrame1280x720]) {
+        p2 = 1280./720.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetHigh]) {
+        p2 = 1920./1080.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetMedium]) {
+        p2 = 480./360.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetLow]) {
+        p2 = 192./144.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetPhoto]) { // 暂时未查到具体分辨率，但是可以推导出分辨率的比例为4/3
+         p2 = 4./3.;
+    }
+    else if ([_session.sessionPreset isEqualToString:AVCaptureSessionPresetInputPriority]) {
+        p2 = 1920./1080.;
+    }
+    else if (@available(iOS 9.0, *)) {
+        if ([_session.sessionPreset isEqualToString:AVCaptureSessionPreset3840x2160]) {
+            p2 = 3840./2160.;
+        }
+    } else {
+        
+    }
+    if ([_previewLayer.videoGravity isEqualToString:AVLayerVideoGravityResize]) {
+        _metadataOutput.rectOfInterest = CGRectMake((cropRect.origin.y)/size.height,(size.width-(cropRect.size.width+cropRect.origin.x))/size.width, cropRect.size.height/size.height,cropRect.size.width/size.width);
+    } else if ([_previewLayer.videoGravity isEqualToString:AVLayerVideoGravityResizeAspectFill]) {
+        if (p1 < p2) {
+            CGFloat fixHeight = size.width * p2;
+            CGFloat fixPadding = (fixHeight - size.height)/2;
+            _metadataOutput.rectOfInterest = CGRectMake((cropRect.origin.y + fixPadding)/fixHeight,
+                                                        (size.width-(cropRect.size.width+cropRect.origin.x))/size.width,
+                                                        cropRect.size.height/fixHeight,
+                                                        cropRect.size.width/size.width);
+        } else {
+            CGFloat fixWidth = size.height * (1/p2);
+            CGFloat fixPadding = (fixWidth - size.width)/2;
+            _metadataOutput.rectOfInterest = CGRectMake(cropRect.origin.y/size.height,
+                                                        (size.width-(cropRect.size.width+cropRect.origin.x)+fixPadding)/fixWidth,
+                                                        cropRect.size.height/size.height,
+                                                        cropRect.size.width/fixWidth);
+        }
+    } else if ([_previewLayer.videoGravity isEqualToString:AVLayerVideoGravityResizeAspect]) {
+        if (p1 > p2) {
+            CGFloat fixHeight = size.width * p2;
+            CGFloat fixPadding = (fixHeight - size.height)/2;
+            _metadataOutput.rectOfInterest = CGRectMake((cropRect.origin.y + fixPadding)/fixHeight,
+                                                        (size.width-(cropRect.size.width+cropRect.origin.x))/size.width,
+                                                        cropRect.size.height/fixHeight,
+                                                        cropRect.size.width/size.width);
+        } else {
+            CGFloat fixWidth = size.height * (1/p2);
+            CGFloat fixPadding = (fixWidth - size.width)/2;
+            _metadataOutput.rectOfInterest = CGRectMake(cropRect.origin.y/size.height,
+                                                        (size.width-(cropRect.size.width+cropRect.origin.x)+fixPadding)/fixWidth,
+                                                        cropRect.size.height/size.height,
+                                                        cropRect.size.width/fixWidth);
+        }
+    }
+}
+```
