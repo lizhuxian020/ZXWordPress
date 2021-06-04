@@ -63,7 +63,8 @@ Provisioning Profile文件
     * 判断MainBundle里是否有embedded.mobileprovision这个文件, 无则没事
     * 有则继续判断TeamId, 判断是否是自己的TeamID, 是则没事, 否则就是重签名包
 
-    ```objective-c
+
+```objective-c
     // 不能单纯的判断是否存在embedded.mobileprovision，因为开发环境+Testflight是存在当前文件的。
 + (BOOL)checkResign 
 {
@@ -105,7 +106,7 @@ Provisioning Profile文件
     // developer ->  Account -> Membership -> Team ID
     return ![teamIdentifier isEqualToString:@"Team ID"];
 }
-    ```
+```
     
 用 ios-app-signer可以重签名
 uncover重签名过程
