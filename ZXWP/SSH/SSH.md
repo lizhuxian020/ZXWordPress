@@ -81,3 +81,18 @@ bash 和 sh执行时会另起进程去执行, 不会改变当前环境
 ##查看app的沙盒(appleStore下载的app)
 只要找到app沙盒所在路径, 即可访问app的沙盒
 在cycript调试下, 输入`NSHomeDirectory()`即可拿到路径, 然后cd到这个路径即可
+
+
+#手机终端命令
+重启SpringBoard: `killall SpringBoard`
+重启手机: `reboot`
+
+##ipa包的生成
+![](media/16231448001924.jpg)
+代码经过编译+链接+签名后, 会变成.app文件, 文件里面有个"可执行文件", 格式为`Mach-O`
+
+把.app文件放进Payload文件夹里, 再压缩成.zip, 把zip改成ipa即可!
+
+##终端命令寻找方式
+先`/usr/bin`
+后`/usr/local/bin`
