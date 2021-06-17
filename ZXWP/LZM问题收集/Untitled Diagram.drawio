@@ -1,1 +1,91 @@
-<mxfile host="app.diagrams.net" modified="2021-06-17T08:15:24.220Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36" etag="jnt8RBmgW77KVwhV-aMT" version="14.7.10" type="github"><diagram id="U8yK6cQryB4MRYCS27Vf" name="Page-1">7Vpdj5s6EP01ltqHveI75BHY9N6HbLV3U6nSvlRecIK7BiPjbJL++o7BhBBIlW03paoSRQo+Hht7zvFgD0F2lG3/FbhI73hCGLKMZIvsW2RZluHZ8KOQXY2YhmnUyErQRGMtsKDfSGOo0TVNSNkxlJwzSYsuGPM8J7HsYFgIvumaLTnr3rXAK9IDFjFmffQzTWTajA4+bc1/hK5S2avKcGOvgTLFCd8cQPYM2ZHgXNZX2TYiTDmwcU3d7sOJ2v3YBMnlOQ2C5GE7++wkj8HDcuI9Pj3nX/+/meqxyV0zZ5KAC3SRC5nyFc8xm7VoKPg6T4jq1YBSazPnvADQBPArkXKn+cRryQFKZcZ0bX1PdaOTU9FQydciJj8Yv7t3JKiQ8IxIsYN2gjAs6Uu3f6zVsNrb7Zvecwp3tgwtXX+qOdsL1+h2IbFYEalbtT6Hi4NhtFDFxCtYceu7vWC21lOYP95FPJdkK3uElRuaMZwrZpZg0nCnHI0ZXeVwHYNfiQDghQhJQd+BrpCKsTBOKUvmeMfXyvulxPFzUwpTLug36BY35EG1kJpay+tYLFRLLQtBSrC5byg1j6A7vO0YznEpNRBzxnBR0qf9NDLwNs1DLiXPtJF2EEyHbH8sor44dAPPPSK5Waibdqk7jRDSg0VuOdZpQXWk8FrevR7vN18ynqwZiRguS1KGu484I+8+LgIh8O49AgIs22wdciCLSiuKLsGfScQZB/5vc17rhDJ2BDVSYWQpTwqlLHBM89W8srl1WuRBe0dBHNouWRXpUpokJK9ChsQS14yq0RZq5VTec0P4gpMj4x8XuTDwCMpmW4avMhcS5A9zwbQil4BcNkRJ5jwlvCZ2aDlY3plq8C4kBvOqhj9HDa41shomPTH0OGa04q7muNmvmD9FcAZUVc96zein6sl+Y/ZYt/us2wMMM/xE2D0vqaRc9S9q2yPmxyJ34p9Hrn8hbv0BbkO1hSSwtUreyV1B3iM7ULtfuLyu7Tem3x890ltXAYwpANMcO7qb5lUBoyrAPvMRcDkFOFcFjKoAzxlbAf1T/1UBv1MB03PP/xdTgH1VwKhHfnP0neAZx7w2/aqOY5uUSrIASlTtRuBiKNX6a3mySTdP5hr9dWIbA15yHONSbho6MR3nsfMkUK8AWr1fJgNdU9b33oF33AHnNNgvZqon5hE57pHP6/H3MtX9jrwTLP+mlHfD4CGlMxfB6gs+qAs/QIF/KuIdMPva4HcyNb5PgQytsO4rkDdYZD0eB5LR+9dinVB0qTVmDT2MRg5FlvvHhSJraN8+UiiqKRsrFFnTNwpFtjNyKBrYiM8mKIzQ1EMzXwWkqYlmUzT1UQiIh4IZCt2/Nzj1mL1gcIJi+0q8ZrT9c4E9+w4=</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-06-17T09:23:14.174Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.106 Safari/537.36" etag="p59Cx7Pg73aVMMfqNUeL" version="14.7.10" type="github">
+  <diagram id="U8yK6cQryB4MRYCS27Vf" name="Page-1">
+    <mxGraphModel dx="2063" dy="1010" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="10000" pageHeight="10000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-5" value="LZMContext(管理module, task)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+          <mxGeometry x="240" y="1090" width="490" height="242" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-6" value="_moduleClassesByName: Array&#xa;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="26" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-16" value="_modulesByName: Array" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="52" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-7" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="78" width="490" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-8" value="- readModuleInSectionAndRegisteModule" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="86" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-12" value="- registerModule(Class)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="112" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-11" value="- loadModules" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="138" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-14" value="- findModule(Class)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="164" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-15" value="+ method(type): type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="190" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-13" value="+ method(type): type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="AdRxEW4dZARf76ZbknjQ-5" vertex="1">
+          <mxGeometry y="216" width="490" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-17" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="670" y="500" width="300" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-18" value="" style="endArrow=none;html=1;" parent="1" source="AdRxEW4dZARf76ZbknjQ-17" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="550" as="sourcePoint" />
+            <mxPoint x="760" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-22" value="启动" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="715" y="530" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-23" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="500" width="300" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-24" value="" style="endArrow=none;html=1;" parent="1" source="AdRxEW4dZARf76ZbknjQ-23" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="550" as="sourcePoint" />
+            <mxPoint x="340" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AdRxEW4dZARf76ZbknjQ-25" value="编译阶段" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="290" y="530" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-1" value="声明Module&lt;br&gt;1.&amp;nbsp;&lt;span style=&quot;text-align: left&quot;&gt;使用__attribute属性(编译器属性)把moduleName写入section里(自定义一个sectionName)&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="275" y="620" width="250" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-2" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="250" y="570" as="sourcePoint" />
+            <mxPoint x="550" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-3" value="注册Module的方式:&lt;br&gt;&lt;div style=&quot;text-align: left&quot;&gt;&lt;span&gt;1. 编译阶段, 使用__attribute属性(编译器属性)把moduleName写入section里(自定义一个sectionName),&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left&quot;&gt;&lt;span&gt;2. 在启动阶段, 加载类的时候, 注册Module, 把moduleName写入内存.&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="390" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-4" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="670" y="570" as="sourcePoint" />
+            <mxPoint x="970" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-5" value="初始化LZMContext:&lt;br&gt;&lt;div style=&quot;text-align: left&quot;&gt;&lt;span&gt;1. 获取在编译阶段声明的module, 注册module&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left&quot;&gt;&lt;span&gt;2. 创建task执行的子线程&lt;/span&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="690" y="600" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-9" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Protocol&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;LZMModule&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin: 0px ; margin-left: 4px&quot;&gt;- moduleDidInit(LZMContext)&lt;br&gt;+ loadAfterLaunch: bool&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="1370" width="190" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="Q-jp-RgFeVscWHWHAW9i-12" value="加载Module&lt;br&gt;&lt;div style=&quot;text-align: left&quot;&gt;遍历上述所注册moduleClass, 创建module对象, 执行module初始化方法.&lt;/div&gt;&lt;div style=&quot;text-align: left&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="690" y="690" width="260" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
