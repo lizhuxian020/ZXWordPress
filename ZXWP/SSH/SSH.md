@@ -6,6 +6,11 @@ OpenSSL, 是SSL的开源实现, HTTPS = Http + OpenSSL
 SSH 是Secure Shell 安全外壳协议, 是两端安全连接的协议, 基于SSL实现的协议
 OpenSSH, 是SSH的实现.
 
+##SSH认证过程
+1. 客户端请求服务器, 服务器发送他的公钥给客户端, 客户端验证公钥是否正确(找CA), 验证正确的话, 会把公钥保存在本地.
+2. 服务器验证客户端, 会要求客户端输入账号密码, 以验证客户端的真实性. 但每次都要输入
+3. 还有一个是客户端把自己公钥放到服务器. 这样每次客户端发送数据, 带上加密数据和签名. 服务器可以拿到公钥验证签名和解密.
+
 手机要安装OpenSSH
 链接方式 SSH 用户名@ip地址, ex: 
 `ssh root@192.168.3.23`
@@ -21,7 +26,7 @@ OpenSSH, 是SSH的实现.
 SSH协议里优先会执行这个逻辑, 如果走不通, 才会要求客户端输入密码
 免密登录意思是客户端自己生成一对RSA秘钥, 把自己的公钥追加到服务器的authorized_keys(路径: ~/.ssh/authorized_keys)文件里, 这样下次登录就可以不用输入密码了, 具体操作: 
 `ssh-keygen`在客服端生成一对RSA秘钥, 路径: ~/.ssh/
-`ssh-copy-id root@192.168.1.23`
+`ssh-copy-id root@192.168.1.23`  `ssh-copy-id root@localhost -p 10010`
 手机的~, 即/var/root, 所以authorized_keys在/var/root/.ssh里
 ![-w271](media/16226023916006.jpg)
 
@@ -36,6 +41,7 @@ mac: /etc/ssh/
 Cycript, 结合ES6, objective-C++, java的语言, 可以调试运行中的app
 首先手机安装cycript
 调试某个app, 则执行cycript -P 端口号, 或者cycript -P 应用名
+(搜索手机里启动的进程(app))
 如何获得端口号或应用名, 要手机安装adv-cmds, 然后输入指令: 
 `ps -A` 或者 `ps -A | grep 关键字`
 
@@ -96,3 +102,10 @@ bash 和 sh执行时会另起进程去执行, 不会改变当前环境
 ##终端命令寻找方式
 先`/usr/bin`
 后`/usr/local/bin`
+环境变量: `$PATH, $HOME`
+可通过终端: `echo $PATH` 或者 `echo $HOME`输出变量值.
+`$PATH`: 终端命令会在`$PATH`的路径下寻找, 他是数组, :分割, 如果需要添加一个路径, 需要在`.base_profile`里输入 `export PATH="$PATH:/localPath/bin"`
+
+
+##复制scp
+`scp -P 10010 LocalFilePath root@localhost:RemoteFilePath`
