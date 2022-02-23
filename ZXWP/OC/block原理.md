@@ -70,3 +70,53 @@ __Block_byref_age_0 *__forwarding;//age的地址
  int age;//age 的值
 };
 ```
+
+strongSelf原理
+```
+- (void)test
+{
+    void(^block)(void) = ^{
+        NSLog(@"%@",self.name);
+        NSLog(@"%@",_name);
+    };
+    block();
+}
+```
+
+![](media/16310829783695.jpg)
+self.name, 通过调用objc_sendMsg实现
+_name, 直接获取地址
+
+个人理解:
+strongself,是在方法里生成局部变量, 指向weakSelf. 但因为在声明strongSelf的时候有用到weakSelf, 所以block的struct里还会有weak的指针, 在执行方法的时候, 通过block结构体实例,拿到weak指针, 赋值给strongSelf, 当方法执行完毕, strongSelf会被释放. 从而指针变量-1. 实现在执行函数过程中, 强引用self, 执行完就释放指针.
+
+```
+//WEAK_SELF(self);
+__weak id weakself = self;
+self.request1(^{
+    //STRONG_SELF(self);
+    id self = weakSelf;
+    NSLog(self);
+    self.request2(^{
+        NSLog(self);
+    });
+});
+```
+
+```
+struct BLK1 {
+    __weak id weakself;
+}
+void request1(BLK1) {
+    id self = BLK1.weakSelf;
+    NSLog(self)//局部变量
+}
+
+struct BLK2 {
+    id self;
+}
+void request2(BLK2) {
+    NSLog(BLK2->self)
+}
+
+```

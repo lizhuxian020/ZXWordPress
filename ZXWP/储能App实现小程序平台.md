@@ -21,7 +21,7 @@
 
 ##实现原理
 这边讲讲weex的一些原理吧, weex主要由三个模块组成: JSBridge, Render, Dom, 其中JSBridge和Dom在一个子线程运行, 而Render则在UI线程.
-JSBridge是用来与JS端通讯的, 比如JS端的dom结构通过JSBridge传递给Dom模块, 由他来解析, 然后通知UI线程渲染, 而Render就负责对dom进行渲染.
+JSBridge是he的, 比如JS端的dom结构通过JSBridge传递给Dom模块, 由他来解析, 然后通知UI线程渲染, 而Render就负责对dom进行渲染.
 ![](media/16233938851590.jpg)
 与平常的vue开发不一样, 通过JS生成的dom是一个virtualDOM(个人理解为: UI的描述), 通过JSFramework来决定是否是直接生成真实的DOM还是交给原生渲染引擎渲染.
 这就是weex为什么能跨平台的原因, 写一套代码, 可在iOS,Android,Web平台上运行.

@@ -80,6 +80,7 @@ struct objc_method {
     char *method_types                                       OBJC2_UNAVAILABLE;
     IMP method_imp      
 ```
+![-w1042](media/16341803475608.jpg)
 
 ##Selector
 对Selector的解释:
@@ -164,7 +165,7 @@ Class myMetaClass = object_getClass([NSString class]);
 
 ##完整的消息转发机制`methodSignatureForSelector`, `forwardInvocation`
 如果上述两步都没解决, 最后只能启动完整的消息转发机制了.
-当`resolveInstanceMethod`返回YES, `forwardingTargetForSelector`返回nil, 就会执行`methodSignatureForSelector`
+当`resolveInstanceMethod`返回NO, `forwardingTargetForSelector`返回nil, 就会执行`methodSignatureForSelector`
 ```c
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
     if ([NSStringFromSelector(aSelector) isEqualToString:@"asd"]) {
@@ -313,3 +314,51 @@ static char kDefaultColorKey;
 
 }
 ```
+#NSMethodSignature
+```
+po  [self methodSignatureForSelector:@selector(HompeItemJumpWithIndex:)]
+
+<NSMethodSignature: 0x283cc5300>
+    number of arguments = 3
+    frame size = 224
+    is special struct return? NO
+    return value: -------- -------- -------- --------
+        type encoding (v) 'v'
+        flags {}
+        modifiers {}
+        frame {offset = 0, offset adjust = 0, size = 0, size adjust = 0}
+        memory {offset = 0, size = 0}
+    argument 0: -------- -------- -------- --------
+        type encoding (@) '@'
+        flags {isObject}
+        modifiers {}
+        frame {offset = 0, offset adjust = 0, size = 8, size adjust = 0}
+        memory {offset = 0, size = 8}
+    argument 1: -------- -------- -------- --------
+        type encoding (:) ':'
+        flags {}
+        modifiers {}
+        frame {offset = 8, offset adjust = 0, size = 8, size adjust = 0}
+        memory {offset = 0, size = 8}
+    argument 2: -------- -------- -------- --------
+        type encoding (q) 'q'
+        flags {isSigned}
+        modifiers {}
+        frame {offset = 16, offset adjust = 0, size = 8, size adjust = 0}
+        memory {offset = 0, size = 8}
+```
+返回值:void, 用v表示
+第一个入参:self, 用@表示(对象都用@)
+第二个入参:_cmd, 用:表示
+第三个入参:NSInteger, 用q表示
+![](media/16341943442060.jpg)
+入参: void(\^)(void), 用@?表示
+入参: (double(\^)(NSInteger, id, BOOL, SEL)), 也是用@?表示
+![](media/16345232115711.jpg)
+
+使用方法可以得到该对象
+//可得到实例方法或者类方法
+`- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector OBJC_SWIFT_UNAVAILABLE("");`
+
+//得到实例方法签名
+`+ (NSMethodSignature *)instanceMethodSignatureForSelector:(SEL)aSelector OBJC_SWIFT_UNAVAILABLE("");`

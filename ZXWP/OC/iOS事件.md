@@ -204,3 +204,113 @@ pinch.scale = 1;
 ```
 
 
+#事件和手势
+参考文档: [ios事件处理](https://segmentfault.com/a/1190000013265845)
+
+>摘要: 在UIApplication向第一响应者派发事件，并且遍历响应者链查找手势时，会开始执行响应者链中的touches系列方法。会先执行touchesBegan和touchesMoved方法，如果响应者链能够继续响应事件，则执行touchesEnded方法表示事件完成，如果将事件交给手势处理则调用touchesCancelled方法将响应者链打断。
+
+
+
+当view有能力处理事件时, 同时view也有手势处理这个事件, 则会优先处理给手势处理. 事件会走cancel流程(begin->cancel)
+```
+[ZXView touchesBegan:withEvent:] //View的响应
+[ViewController touchesBegan:withEvent:]
+[ViewController asd] //点击手势响应
+[ZXView touchesCancelled:withEvent:]
+[ViewController touchesCancelled:withEvent:]
+
+```
+
+当你移动之后
+```
+[ZXView touchesBegan:withEvent:]
+[ViewController touchesBegan:withEvent:]
+[ZXView touchesMoved:withEvent:]
+[ViewController touchesMoved:withEvent:]
+...
+[ZXView touchesMoved:withEvent:]
+[ViewController touchesMoved:withEvent:]
+[ViewController asd]
+[ZXView touchesCancelled:withEvent:]
+[ViewController touchesCancelled:withEvent:]
+
+```
+
+>摘要: 根据苹果的官方文档，手势不参与响应者链传递事件，但是也通过hitTest的方式查找响应的视图，手势和响应者链一样都需要通过hitTest方法来确定响应者链的。在UIApplication向响应者链派发消息时，只要响应者链中存在能够处理事件的手势，则手势响应事件，如果手势不在响应者链中则不能处理事件。
+
+当子view不添加手势, 父view有手势, 子view和父view都有touches处理, 打印如下
+```
+[ZXView touchesBegan:withEvent:]// 子View
+[ViewController touchesBegan:withEvent:]// 父view
+[ViewController qwe]// 父view
+[ZXView touchesCancelled:withEvent:]
+[ViewController touchesCancelled:withEvent:]
+
+```
+意思是: 只要响应链上有手势. 就优先处理手势. 然后响应者会走cancel
+
+>总结: 当事件到来时，会通过hitTest和pointInside两个方法，从Window开始向上面的视图查找，找到第一响应者的视图。找到第一响应者后，系统会判断其是继承自UIControl还是UIResponder，如果是继承自UIControl，则直接通过UIApplication直接向其派发消息，并且不再向响应者链派发消息。
+>但是UIControl上面添加手势, 是优先响应手势.
+
+>如果是继承自UIResponder的类，则调用第一响应者的touchesBegin，并且不会立即执行touchesEnded，而是调用之后顺着响应者链向后查找。如果在查找过程中，发现响应者链中有的视图添加了手势，则进入手势的代理方法中，如果代理方法返回可以响应这个事件，则将第一响应者的事件取消，并调用其touchesCanceled方法，然后由手势来响应事件。
+
+>如果手势不能处理事件，则交给第一响应者来处理。如果第一响应者也不能响应事件，则顺着响应者链继续向后查找，直到找到能够处理事件的UIResponder对象。如果找到UIApplication还没有对象响应事件的话，则将这次事件丢弃。
+>
+>
+
+场景一：
+自定义多手势冲突。例如我们设置的单次点击、双击和三次点击手势，需要设置优先识别三击手势，识别失败后再识别双击手势；同理，双击手势识别失败后再识别单击手势。
+```
+    /// 自定义多手势冲突
+    func test_1() {
+        let oneGes = UITapGestureRecognizer(target: self, action: #selector(oneTap(tapGes:)))
+        oneGes.numberOfTapsRequired = 1
+        self.scrollVeiw.addGestureRecognizer(oneGes)
+        
+        let twoGes = UITapGestureRecognizer(target: self, action: #selector(twoTap(tapGes:)))
+        twoGes.numberOfTapsRequired = 2
+        self.scrollVeiw.addGestureRecognizer(twoGes)
+        
+        let threeGes = UITapGestureRecognizer(target: self, action: #selector(threeTap(tapGes:)))
+        threeGes.numberOfTapsRequired = 3
+        self.scrollVeiw.addGestureRecognizer(threeGes)
+        // 优先级设置
+        oneGes.require(toFail: twoGes)
+        twoGes.require(toFail: threeGes)
+    }
+    @objc func oneTap(tapGes: UITapGestureRecognizer) {
+        print("=================> oneTap")
+    }
+    @objc func twoTap(tapGes: UITapGestureRecognizer) {
+        print("=================> twoTap")
+    }
+    @objc func threeTap(tapGes: UITapGestureRecognizer) {
+        print("=================> threeTap")
+    }
+```
+
+cancelsTouchesInView（是否取消向事件响应链传递）：
+默认 YES，自定义的手势响应后，系统手势不再响应，但自定义手势识别前，会先执行系统手势。
+设置为 NO 后，自定义手势和系统手势会同时识别响应。
+delaysTouchesBegan（延迟响应链的识别）：
+默认 NO，先执行响应链中的方法（系统方法），识别到自定义手势后，不再执行系统方法。
+设置为 YES 后，优先识别自定义手势，当自定义手势识别失败后才会响应系统方法
+
+————————————————
+版权声明：本文为CSDN博主「kangpp」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/kangpengpeng1/article/details/103919904
+
+```
+//手指触摸屏幕后回调的方法，返回NO则不再进行手势识别，方法触发等
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch;
+//开始进行手势识别时调用的方法，返回NO则结束，不再触发手势
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer;
+//是否支持多时候触发，返回YES，则可以多个手势一起触发方法，返回NO则为互斥
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer;
+//下面这个两个方法也是用来控制手势的互斥执行的
+//这个方法返回YES，第一个手势和第二个互斥时，第一个会失效
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer NS_AVAILABLE_IOS(7_0);
+//这个方法返回YES，第一个和第二个互斥时，第二个会失效
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer NS_AVAILABLE_IOS(7_0);
+```
+
