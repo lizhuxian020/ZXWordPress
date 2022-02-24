@@ -24,9 +24,9 @@
 ##spring-context
 spring的主框架，主要是实现spring容器，配置`applicationContext.xml`
 
-ClassPathXMLApplicationContext
-SystemFileApplicationContext
-AnnotationApplicationContext
+* ClassPathXMLApplicationContext
+* SystemFileApplicationContext 
+* AnnotationApplicationContext
 ##spring-web
 是spring对web的封装
 ContextLoaderListener，是spring对web的服务启动的监听器。只要做好web.xml相关配置，在web服务启动的时候，就会创建好spring容器
@@ -43,3 +43,7 @@ DispatcherServlet: 前端控制器
 
 @Controller: 在指定的类，表明这里是web的控制器，在spring-context库里
 @RequestMapping("/path"): 用来匹配请求路径。在函数上注解。在spring-web库里
+
+#ModelAndView使用
+在通过`modelAndView.addObject("key","value")`给request域设置入参的时候，
+如果在jsp使用`el表达式`没效果的话，在%>前面加`isELIgnored="false"`
