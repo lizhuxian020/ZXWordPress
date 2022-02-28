@@ -102,3 +102,118 @@ public void func1() {
 我们可以用spring注入的方式，给这个类成员变量进行赋值
 ![](media/16456750324822.jpg)
 这样，你方法返回值就可以省略前缀和后缀了。
+
+##RequestMapping使用
+获取HttpServletRequest和HttpServletResponse都可以通过设置形参方式获取
+```
+@RequestMapping("/asd")
+private void func(HttpServletRequest request, HttpServletResponse response)
+```
+request可以设置Request域的参数：`request.setAttribute(key, value)`
+response可以设置回写数据:
+`response.getWriter().print("jsonString")`
+
+##@ResponseBody
+用在方法上，表示return的字符串是用于数据回写
+
+###对象转json字符串
+导包
+```
+ <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+```
+目标类不需要实现什么特殊接口
+直接如下使用
+```java
+@RequestMapping("/quick5")
+    @ResponseBody
+    private String func5() throws JsonProcessingException {
+        User user = new User();
+        user.setUsername("lisi");
+        user.setAge(123);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(user);
+        return json;
+    }
+```
+
+###通过SpringMVC 框架，集成Jackson
+通过注入，配置HandlerAdapter
+![](media/16460180593880.jpg)
+![](media/16460181256897.jpg)
+
+```xml
+<bean id="handlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+```
+
+PS： org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+这个类依赖jackson框架
+![](media/16460183693363.jpg)
+
+###\<mvc:annotation-driven/>
+使用这个标签，springMVC就会自动加载RequestMappingHandlerMapping，RequestMappingHandlerAdapter。并且会自动集成Jackson框架到HandlerAdapter上。
+
+PS：所以上面对HandlerAdapter配置的xml代码可以不用写
+
+##Get请求获取入参
+在RequestMapping方法里，直接声明同名的形参，即可获得相应的入参
+http://localhost:8080/quick?username=asd
+```java
+@RequestMapping("/quick")
+private void func1(String username){
+ 
+}
+```
+###入参对象
+或者直接传入一个对象，对象成员变量与入参同名
+```java
+private void func(User user){
+}
+```
+###入参数组
+需要请求地址http://localhost/quick?asd=123&asd=321&asd=231
+```java
+private void func(String[] asd){
+}
+```
+
+###入参集合(List\<T>)
+集合只能封装到对象里，作为成员变量。
+```java
+class VO {
+    private List<User> userList
+}
+
+@RequestMapping("")
+private void func(VO vo) {
+}
+```
+还只能用POST，不能用GET=。=
+![-w628](media/16460401063148.jpg)
+
+在获取集合类型入参时，如果不想作为成员变量封装在对象里，则需要引用注解`@RequestBody`
+```java
+private void func(@RequestBody List<User> userList){ 
+}
+```
+![-w877](media/16460421785684.jpg)
+入参名不重要，主要是要数组
