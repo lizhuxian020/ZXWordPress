@@ -210,6 +210,7 @@ private void func(VO vo) {
 还只能用POST，不能用GET=。=
 ![-w628](media/16460401063148.jpg)
 
+###RequestBody (表示获取请求体数据)
 在获取集合类型入参时，如果不想作为成员变量封装在对象里，则需要引用注解`@RequestBody`
 ```java
 private void func(@RequestBody List<User> userList){ 
@@ -217,3 +218,97 @@ private void func(@RequestBody List<User> userList){
 ```
 ![-w877](media/16460421785684.jpg)
 入参名不重要，主要是要数组
+
+###中文编码
+> 教程里是用web的表单提交数据到Tomcat，如果出现中文，则Tomcat会拿到的是乱码，如果是使用postman去提交，则Tomcat可以正常拿到中文
+> 因此需要配置web的编码方式。去web.xml配置
+
+```xml
+  <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+```
+
+###@RequestParam
+
+使用在方法形参，缺省为value，表示把web入参映射到这个方法形参，required（缺省为TRUE）表示是否强制，defaultValue，web端没传时的默认值
+
+http://localhost:8080/quick?name=asd    
+```java
+private void func(@RequestParam(value="name",required = false, defaultValue="haha") String username) {
+    print(username)
+}
+```
+
+
+###Resultful请求方式，获取入参
+###@PathVariable
+http://localhost:8080/quick/123
+```java
+@RequestMapping("/quick/{username}")
+private void func(@PathVariable("username") String name) {
+}
+```
+
+#SpringMVC 请求参数类型转换
+###Converter类型转换器
+场景: web端传了一个2022-2-2的字符串, SpringMVC需要识别并得到正确的Date对象. 需要自己实现转换器(通过SpringMVC框架提供的接口(org.springframework.core.convert.converter.Converter)实现)
+
+声明一个类,实现上述接口
+```java
+public class DateConverter implements Converter<String, Date> //表示拿到String,返回Date{
+    @Override
+    public Date convert(String s) {
+        return null;
+    }
+}
+```
+建好类了之后, 去SpringMVC的配置xml去配置.
+```xml
+ <mvc:annotation-driven conversion-service="dateConvert"/>
+
+    <bean id="dateConvert" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="cn.zzstc.converter.DateConverter"></bean>
+            </list>
+        </property>
+    </bean>
+```
+
+###获取请求头信息,获取Cookie
+```java
+@RequestMapping("/quick12")
+    @ResponseBody
+    private void func12(@RequestHeader(value = "User-Agent") String userAgent, @CookieValue("JSESSIONID") String cookie) {
+        System.out.println(userAgent);
+        System.out.println(cookie);
+    }
+    
+//    Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.109 Mobile Safari/537.36
+//12B6E5220B8799D92EEF904A04611EC1
+```
+![-w563](media/16461270426829.jpg)
+
+#文件上传
+##web端,制作文件上传
+```xml
+<form action="${pageContext.request.contextPath}/user/quick13" enctype="multipart/form-data" method="post">
+        用户名<input type="text" name="username" ><br/>
+        文件名<input type="file" name="file"><br/>
+        <input type="submit" name="提交">
+    </form>
+```
+`enctype="multipart/form-data"` 使用这个方式POST
+![-w1226](media/16461289163142.jpg)
+![-w1654](media/16461289773252.jpg)
+![-w1673](media/16461290010915.jpg)
