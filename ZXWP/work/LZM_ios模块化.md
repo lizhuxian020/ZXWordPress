@@ -66,63 +66,84 @@
     1. 如果不单独建仓库, 和在原工程上新建文件夹重新整理代码结构没什么区别. 如果模块解耦的好的话, 就方便导入和移除业务代码.
 5. 日后模块化如果成功完成的话, 模块就可以自己独立迭代, 发展自己的版本, 比如日后可能会有UGC2.0等等. 
 
-##模块化后Podfile如下
-```
-use_frameworks!
-inhibit_all_warnings!
-# platform :ios, '9.0'
+#自定义跳转移到base
 
-abstract_target 'Common_Pods' do
-    # 公用Pods
-    pod 'Masonry'
-    pod 'MJRefresh'
-    pod 'MJExtension', '3.2.1'
-    pod 'SDWebImage'
-    pod 'YYKit'
-    pod 'FMDB'
-    pod 'TZImagePickerController'
-    pod 'FLAnimatedImage'
-    pod 'MBProgressHUD'
-    pod 'IQKeyboardManager'
-    pod 'DZNEmptyDataSet'
-    pod 'AliyunOSSiOS'
-    pod 'Bugly'
-    pod 'UMCCommon'
-    pod 'UMCAnalytics'
-    pod 'UMCSecurityPlugins'
-    pod 'AFNetworking'
-    pod 'BlocksKit'
-    pod 'GTSDK', '2.3.1.0-noidfa'
-    pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
-    pod 'EFQRCode'
-    pod 'ReactiveObjC'
-    pod 'OCSkeleton', '~> 0.5.0'
-    pod 'ZFPlayer', '~> 3.0'
-    pod 'ZFPlayer/ControlView', '~> 3.0'
-    pod 'ZFPlayer/AVPlayer', '~> 3.0'
+##目标:
+1. 把自定义跳转逻辑移到Base模块
+2. 每个子模块都有自己的JumpType, 实现导包, 就自动有新的JumpType.而不用手动去配置
+3. 尽量少改动原代码, 只做代码移植
+4. 子模块可以直接调用通用的跳转逻辑, 通用的找不到, 去主工程找定制的逻辑, 再找不到, 则跳转升级页面
+
+##难点:
+1. JumpType是通过枚举定义的, 若要实现目标2, 则需要有一个机制: 遍历每个子模块的JumpType和全部合并到一起.
+2. 而且JumpType的枚举不移动到子模块里.
+3. 之前说过, ios端有几套JumpType以下整理
+    1. LZMTargetJumpManage一套: 枚举那套
+    2. LZMJumpCenter的一套: 先判断1~13, 没有再走LZMTargetJumpManage
+    3. AppDelegate.openUrl的一套: ![](media/16463587048018.jpg)
+    先是走他的枚举,最后才走TargetJump
     
-    # 对应target使用的库
-    target 'LZM_SmartEdifice' do
-        pod 'ugc'    
-    end
-
-    target 'LZM_DBH' do
-        pod 'LZMPodPublic', :path=>'LZMPodPublic/'
-        pod 'LZMPodProject_A', :path=>'LZMPodProject_A/'
-    end
-
-    target 'LZM_YLH' do
-        
-    end
-    
-    target 'LZM_TR' do
-        
-    end
-    
-    target 'LZM_MeiGuiWan' do
-        
-    end
-end
+    1. 综上所述, 我们只移植TargetJump那套, 移植完, 需要把这里每个跳转都自测一遍
+1. LZMJumpGeneralModel定义了跳转的模型, 里面依赖着其他业务模块的模型, 是用来类型转换的. 使用Category来分开, 成员定义放在模块里, Category来定义类型转换放在主工程里
 
 
-```
+##targetJump跳转机制
+1. 根据跳转模型, 先去JumpGeneralManager寻找跳转目标.
+    1. 找得到.执行RunTimeJump跳转
+    2. 找不到, 对应target的JumpTypeManager找
+        1. 到得到, 执行RunTimeJump跳转
+        2. 找不到, 跳转升级页
+
+##类
+####LZMRunTimeJump
+负责执行跳转
+1. 进行tabbar切换
+2. 特殊跳转, 只跳系统设置
+3. 判断是否需要公司认证(根据类), 需要配置, 匹配的上就是需要认证
+    1. 需要, 则获取认证信息(缓存), 判断是否已认证
+        1. 已认证, 则跳转( 这里有bug, 直接new的, 万一需要传入参, 则会有问题)
+        2. 没认证, 则跳认证页面
+4. 不需要认证, 则设置好参数, 进行跳转
+
+依赖:
+LZMBaseTabBarController
+LZMCheckCompanyAuthority
+
+####LZMJumpTypeHandle
+主要定义了JumpType的枚举
+
+####LZMJumpGeneralModel
+定义跳转的模型
+
+####LZMJumpGeneralManage
+根据跳转模型, 寻找跳转目标(常规的)
+特殊跳转(小程序)
+
+####LZMTargetJumpManage 
+根据target, 调用各个的HandleJump
+不移植:
+因为这里主要是根据target调. 属于定制
+
+##设计
+###通用的跳转逻辑
+1. 定义一个单例对象(JumpManager)管理跳转逻辑
+2. 定义一个协议JumpProtocol
+    1. 方法1, 返回: 数组jumpType
+    2. 方法2, 入参: 跳转模型, 返回: 跳转字典
+3. 子模块
+    1. 实现JumpProtocol, 并向Manager注册
+4. 主工程
+    1. 实现JumpProtocol的方法2, 向Manager注册
+5. Manager初始化
+    1. 拿到所有实现协议的对象, Array<Protocol>
+6. JumpManager跳转逻辑
+    1. 入参: 跳转模型对象, 
+    2. 先去主工程找跳转字典, 找不到,再从子模块找
+    3. 最后找不到再返回提示升级的字典
+
+###处理定制化问题
+在主工程的JumpProtocol对象, 方法2里就走定制化
+
+###处理定义JumpType问题
+枚举的JumpType写在主工程的对象
+剩下定义在子模块
