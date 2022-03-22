@@ -1,7 +1,7 @@
 # TomcatServlet
 
 
-#注解
+# 注解
 @Scope("prototype|singleton")
 @Component("beanId")
 @Repository("beanId") //Dao层
@@ -20,8 +20,8 @@
 @Value("@{propertyKey}") //用于注入
 
 
-#Spring框架
-##spring-context
+# Spring框架
+## spring-context
 spring的主框架，主要是实现spring容器，配置`applicationContext.xml`
 
 * ClassPathXMLApplicationContext
@@ -37,11 +37,13 @@ ContextLoaderListener，是spring对web的服务启动的监听器。只要做�
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
 ```
-##spring-webmvc
+
+## spring-webmvc
+
 DispatcherServlet: 前端控制器
 主要用于转发请求到指定的Servlet。需要给他配置spring容器，来让他知道他转发到哪个容器的哪个方法。
 
-###DispatcherServlet 工作原理
+### DispatcherServlet 工作原理
 ![](media/16456664485162.jpg)
 1. 浏览器发送请求给Tomcat服务器，Tomcat引擎把请求封装，转发给DispatcherServlet处理
 2. DispatcherServlet收到请求后，转发给`HandlerMapping`
@@ -60,7 +62,7 @@ DispatcherServlet: 前端控制器
 
 @RequestMapping("/path"): 用来匹配请求路径。在函数上注解。在spring-web库里
 
-#ModelAndView使用
+# ModelAndView使用
 在通过`modelAndView.addObject("key","value")`给request域设置入参的时候，
 如果在jsp使用`el表达式`没效果的话，在%>前面加`isELIgnored="false"`
 
@@ -88,7 +90,7 @@ public void func1() {
 
 ```
 
-###ViewResolver 源码
+### ViewResolver 源码
 在spring-mvc的源码库里。寻找DispatcherServlet.properties文件，里面有告知你哪个类是ViewResolver。
 ![](media/16456747858410.jpg)
 找到父类
@@ -103,7 +105,7 @@ public void func1() {
 ![](media/16456750324822.jpg)
 这样，你方法返回值就可以省略前缀和后缀了。
 
-##RequestMapping使用
+## RequestMapping使用
 获取HttpServletRequest和HttpServletResponse都可以通过设置形参方式获取
 ```
 @RequestMapping("/asd")
@@ -113,10 +115,10 @@ request可以设置Request域的参数：`request.setAttribute(key, value)`
 response可以设置回写数据:
 `response.getWriter().print("jsonString")`
 
-##@ResponseBody
+## @ResponseBody
 用在方法上，表示return的字符串是用于数据回写
 
-###对象转json字符串
+### 对象转json字符串
 导包
 ```
  <dependency>
@@ -150,7 +152,7 @@ response可以设置回写数据:
     }
 ```
 
-###通过SpringMVC 框架，集成Jackson
+### 通过SpringMVC 框架，集成Jackson
 通过注入，配置HandlerAdapter
 ![](media/16460180593880.jpg)
 ![](media/16460181256897.jpg)
@@ -169,12 +171,12 @@ PS： org.springframework.http.converter.json.MappingJackson2HttpMessageConverte
 这个类依赖jackson框架
 ![](media/16460183693363.jpg)
 
-###\<mvc:annotation-driven/>
+### \<mvc:annotation-driven/>
 使用这个标签，springMVC就会自动加载RequestMappingHandlerMapping，RequestMappingHandlerAdapter。并且会自动集成Jackson框架到HandlerAdapter上。
 
 PS：所以上面对HandlerAdapter配置的xml代码可以不用写
 
-##Get请求获取入参
+## Get请求获取入参
 在RequestMapping方法里，直接声明同名的形参，即可获得相应的入参
 http://localhost:8080/quick?username=asd
 ```java
@@ -183,20 +185,20 @@ private void func1(String username){
  
 }
 ```
-###入参对象
+### 入参对象
 或者直接传入一个对象，对象成员变量与入参同名
 ```java
 private void func(User user){
 }
 ```
-###入参数组
+### 入参数组
 需要请求地址http://localhost/quick?asd=123&asd=321&asd=231
 ```java
 private void func(String[] asd){
 }
 ```
 
-###入参集合(List\<T>)
+### 入参集合(List\<T>)
 集合只能封装到对象里，作为成员变量。
 ```java
 class VO {
@@ -210,7 +212,7 @@ private void func(VO vo) {
 还只能用POST，不能用GET=。=
 ![-w628](media/16460401063148.jpg)
 
-###RequestBody (表示获取请求体数据)
+### RequestBody (表示获取请求体数据)
 在获取集合类型入参时，如果不想作为成员变量封装在对象里，则需要引用注解`@RequestBody`
 ```java
 private void func(@RequestBody List<User> userList){ 
@@ -219,7 +221,7 @@ private void func(@RequestBody List<User> userList){
 ![-w877](media/16460421785684.jpg)
 入参名不重要，主要是要数组
 
-###中文编码
+### 中文编码
 > 教程里是用web的表单提交数据到Tomcat，如果出现中文，则Tomcat会拿到的是乱码，如果是使用postman去提交，则Tomcat可以正常拿到中文
 > 因此需要配置web的编码方式。去web.xml配置
 
@@ -238,7 +240,7 @@ private void func(@RequestBody List<User> userList){
   </filter-mapping>
 ```
 
-###@RequestParam
+### @RequestParam
 
 使用在方法形参，缺省为value，表示把web入参映射到这个方法形参，required（缺省为TRUE）表示是否强制，defaultValue，web端没传时的默认值
 
@@ -250,8 +252,8 @@ private void func(@RequestParam(value="name",required = false, defaultValue="hah
 ```
 
 
-###Resultful请求方式，获取入参
-###@PathVariable
+### Resultful请求方式，获取入参
+### @PathVariable
 http://localhost:8080/quick/123
 ```java
 @RequestMapping("/quick/{username}")
@@ -259,9 +261,16 @@ private void func(@PathVariable("username") String name) {
 }
 ```
 
-#SpringMVC 请求参数类型转换
-###Converter类型转换器
-场景: web端传了一个2022-2-2的字符串, SpringMVC需要识别并得到正确的Date对象. 需要自己实现转换器(通过SpringMVC框架提供的接口(org.springframework.core.convert.converter.Converter)实现)
+# SpringMVC 请求参数类型转换
+### Converter类型转换器
+场景: web端传了一个2022-2-2的字符串, SpringMVC需要识别并得到正确的Date对象. 需要自己实现转换器
+http://localhost/path?date=2022-02-02
+```java
+private void func(Date date) {
+    print(date);//会报错, 因为Spring转不过来
+}
+```
+(通过SpringMVC框架提供的接口(org.springframework.core.convert.converter.Converter)实现)
 
 声明一个类,实现上述接口
 ```java
@@ -285,7 +294,7 @@ public class DateConverter implements Converter<String, Date> //表示拿到Stri
     </bean>
 ```
 
-###获取请求头信息,获取Cookie
+### 获取请求头信息,获取Cookie
 ```java
 @RequestMapping("/quick12")
     @ResponseBody
@@ -299,8 +308,8 @@ public class DateConverter implements Converter<String, Date> //表示拿到Stri
 ```
 ![-w563](media/16461270426829.jpg)
 
-#文件上传
-##web端,制作文件上传
+# 文件上传
+## web端,制作文件上传
 ```xml
 <form action="${pageContext.request.contextPath}/user/quick13" enctype="multipart/form-data" method="post">
         用户名<input type="text" name="username" ><br/>
