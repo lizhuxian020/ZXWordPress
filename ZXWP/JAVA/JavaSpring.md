@@ -317,7 +317,57 @@ public class DateConverter implements Converter<String, Date> //表示拿到Stri
         <input type="submit" name="提交">
     </form>
 ```
+
+```java
+@ReqeustMapping(path="/quick123")
+private void fun13(String username, MultiPartFile file) {
+    
+        //文件名称
+        System.out.println( file.getOriginalFilename());
+        String fileName = file.getOriginalFilename();
+        file.transferTo(new File("/Users/zzer/Desktop/" + fileName));
+}
+```
+
+> java的字段名要跟表单的字段名一样, 使用MultiPartFile类来接收文件
+> 
+
+
 `enctype="multipart/form-data"` 使用这个方式POST
 ![-w1226](media/16461289163142.jpg)
 ![-w1654](media/16461289773252.jpg)
 ![-w1673](media/16461290010915.jpg)
+
+
+## 多个文件上传
+只要form里有多个字段一样的, 然后再java那边用数据类型来接收这些字段即可
+```xml
+    <input type="file" name="file"/> 
+    <input type="file" name="file"/> 
+    <input type="file" name="file"/> 
+```
+```java
+private void func(MultiPartFile[] file){
+    for (MultiPartFile f : file) {
+    }
+}
+```
+
+
+# JDBCTemplate
+是Spring的框架`spring-jdbc` 和 `Spring-tx`
+
+## 使用
+```java
+ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass("com.mysql.jdbc.Driver");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/lzm_db_test");
+        dataSource.setUser("root");
+        dataSource.setPassword("qq123123");
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource);
+
+        int row = jdbcTemplate.update("insert into user(name, phone) values (?,?)", "tom", "3123123");
+        System.out.println(row);
+```
