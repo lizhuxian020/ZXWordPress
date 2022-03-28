@@ -15,7 +15,8 @@
 
 @Configuration //指定配置类
 @ComponentScan("package") //指定扫描的包
-@PropertySource("classpath:fileName") //指定加载的property
+@PropertySource("classpath:fileName") //指定加载的property, 替代:`    <context:property-placeholder location="classpath:jdbc.properties"/>
+`
 @Bean("beanId") //用于函数，返回的对象，作为容器中的bean
 @Value("@{propertyKey}") //用于注入
 
@@ -370,4 +371,13 @@ ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
         int row = jdbcTemplate.update("insert into user(name, phone) values (?,?)", "tom", "3123123");
         System.out.println(row);
+```
+
+## 查询
+```java
+List<User> userList = jdbcTemplate.query(selectSQL, new BeanPropertyRowMapper<User>(User.class))
+
+User user = jdbcTemplate.queryForObject(selectSQL, new BeanPropertyRowMapper<User>(User.class), userId)
+
+Long count = jdbcTemplate.query
 ```

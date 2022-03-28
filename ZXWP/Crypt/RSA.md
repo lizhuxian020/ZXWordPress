@@ -2,13 +2,13 @@
 RSA是由罗纳德·李维斯特（Ron Rivest）、阿迪·萨莫尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）
 非对称加密算法
 
-#iosApp签名机制
+# iosApp签名机制
 [学习来源](http://blog.cnbang.net/tech/3386/)
 [重签名](https://www.jianshu.com/p/ecba455911db)
-##签名与验证签名
+## 签名与验证签名
 ![](media/16226841597219.jpg)
 
-##AppleStore签名机制和验证机制
+## AppleStore签名机制和验证机制
 ![](media/16226844512466.jpg)
 Apple也有一对秘钥, 私钥在Apple后台, 私钥A(A:Apple), 公钥在ios设备, 公钥A
 从AppStore下载的App带有Apple对App的签名(MD5+私钥A), 下载到iOS设备上后, 把自己算出的MD5, 用公钥A把签名解码后得出的MD5, 两个MD5对比是否相同, 相同则可以正常使用.
@@ -17,15 +17,15 @@ Apple也有一对秘钥, 私钥在Apple后台, 私钥A(A:Apple), 公钥在ios设
 猜想:
 上传App Store相当于App Store服务器来检测我们App是否有效, 首先要有证书, 本机Mac要有证书的私钥L, 私钥L来签名App, 服务器拿到Profile文件, 用公钥A来验证Profile的有效性(是否经苹果授权, 是否被串改), 最后发现profile有效, App也是有效的, 则上传成功.
 
-##证书
+## 证书
 因为苹果服务器是受信任的, 所以由他签名的东西也是受苹果信任的, 就是受信任的. 证书就是这么回事, 证书由苹果生成, 并由苹果签名, 到了ios里, 该证书就是受信任的. 由这个证书解码的签名也是受信任的. 
 
-##跟苹果请求证书
+## 跟苹果请求证书
 CSR文件, 包含了mac的公钥, 跟苹果(CA)请求证书
 
 >苹果是iOS应用程序的唯一有效CA
 
-##Apple开发者签名和验证机制
+## Apple开发者签名和验证机制
 ![](media/16226860738227.jpg)
 开发者做的事情:
 * 开发者有一对秘钥, 公钥L, 私钥L, (L:Local)都在mac里
@@ -46,9 +46,9 @@ Provisioning Profile文件
 * 编译好App后, Provision Profile文件会打进App里, 变成:embedded.mobileprovision文件, 一起安装到手机上
 * iOS会去校验embedded.mobileprovision签名是否正确, 里面的证书是否正确(确保里面的数据都是通过苹果授权)
 
-##embedded.mobileprovision (Provision Profile)
+## embedded.mobileprovision (Provision Profile)
 两个文件的内容是一样的, 内容(关键)
-1. 创建日期和国旗日期
+1. 创建日期和过期日期
 2. entitlement(权利)
     1. 推送的环境(development | production)
     2. teamId
@@ -57,7 +57,7 @@ Provisioning Profile文件
     1. 选择证书的信息, 过期时间
 4. Provisioned Devices(各个手机的UUID)
 
-##ios重签名
+## ios重签名
 * 除了App Store下载的app, 其他包里都会有embedded.mobileprovision文件(包括开发者包, 企业包, 重签名包)
 * 防重签名
     * 判断MainBundle里是否有embedded.mobileprovision这个文件, 无则没事
@@ -116,3 +116,12 @@ uncover重签名过程
 4. 证书选择自己本地有私钥的证书
 5. 在ios-app-signer里选择下载的ipa包, profile选择自己下载的profile, 
 6. 点ok就行了.
+
+Tik Tok重签名过程
+1. 找到Tik Tok的ipa, 自己上网找[地址](https://pan.baidu.com/s/1zwLbf_Je8CerwpcVvVtC6Q?dp-logid=68788600703692730001#list/path=%2F&parentPath=%2Fsharelink1164011760-1032048350063289)
+2. 开发者网站, 配AD证书, 一定要自己本地有秘钥的![](media/16484518934842.jpg)
+![](media/16484519085016.jpg)
+1. bundleID是什么不重要, 因为可以重写, 随便选个bundleID, 最好配齐category, 我选择储能的, 配了推送(PUSH NOTIFICATION, ACCESS WIFI Information, ACCESS DOMAIN)
+2. 然后去配置profile, 证书选择刚刚的AD, identity, 设备, 下载到本地
+3. 打开ios-app-signer([下载地址](https://dantheman827.github.io/ios-app-signer/)), 选择IPA包, profile选择刚刚下载的(choose custom file)
+4. 点击start就行了
