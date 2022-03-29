@@ -30,4 +30,7 @@ hostname = *.tiktokv.com,*.byteoversea.com,*.tik-tokapi.com
 最后无法完美实现Tik Tok, 猜测是因为服务器只认某个指定证书问题.(但如果是这样, 老app都应该看不了才对)
 最后只能去使用网页版, 但网页版阉割了很多功能=.=
 
+## 使用另外的app, Tik Tok++
+[下载地址](https://ihax.io/tiktok-plus-plus-ipa/)
 
+然后重签名安装即可
