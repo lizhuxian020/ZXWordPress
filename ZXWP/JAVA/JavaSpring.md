@@ -2,24 +2,38 @@
 
 
 # 注解
+```
 @Scope("prototype|singleton")
 @Component("beanId")
 @Repository("beanId") //Dao层
 @Service("beanId") //Service层
 @Controller("beanId") //web层
-@Autowired //自动注入，根据成员类型
+@Autowired //自动注入，根据成员类型(如果容器里只有一个这种类的bean, 也不用@Qulifier也行)
 @Qualifier(name="beanId") //指定beanId注入（需要跟Autowired一起用）
 @Resources(name="beanId") //指定beanId注入（可单独使用，但需要导库：javax.annotation-api）
-@POSTConstruction //在函数上用，用于指定bean的初始方法
+@POSTConstruction //在函数上用，指定初始化后执行的方法
 @PreDestroy //指定bean的销毁方法
 
 @Configuration //指定配置类
 @ComponentScan("package") //指定扫描的包
 @PropertySource("classpath:fileName") //指定加载的property, 替代:`    <context:property-placeholder location="classpath:jdbc.properties"/>
 `
-@Bean("beanId") //用于函数，返回的对象，作为容器中的bean
+@Bean("beanId") //用于函数，返回的对象，存储到容器当中, 作为容器中的bean
 @Value("@{propertyKey}") //用于注入
+@Import({DataSourceConfiguration.class, Other.class}) //用于加载其他配置类
+```
+@value 可以直接注入基本数据类型, 也可以引用el表达式, 使用property文件数据(前提, 容器导入了property文件)
+![img_18.png](img_18.png)
 
+#使用指定配置类, 来代替context.xml
+![img_20.png](img_20.png)
+![img_19.png](img_19.png)
+##在核心配置类里, 加载其他配置类
+![img_22.png](img_22.png)
+
+#配置context.xml扫描包
+`<context:component-scan base-package="com.lzx"/>`
+在context命名空间下, 所以需要引用context命名空间
 
 # Spring框架
 ## spring-context
@@ -253,6 +267,9 @@ private void func(@RequestParam(value="name",required = false, defaultValue="hah
 ```
 
 
+#Restful风格
+![img_35.png](img_35.png)
+
 ### Resultful请求方式，获取入参
 ### @PathVariable
 http://localhost:8080/quick/123
@@ -308,8 +325,11 @@ public class DateConverter implements Converter<String, Date> //表示拿到Stri
 //12B6E5220B8799D92EEF904A04611EC1
 ```
 ![-w563](media/16461270426829.jpg)
+![img_36.png](img_36.png)
 
 # 文件上传
+![img_38.png](img_38.png)
+![img_37.png](img_37.png)
 ## web端,制作文件上传
 ```xml
 <form action="${pageContext.request.contextPath}/user/quick13" enctype="multipart/form-data" method="post">
@@ -339,6 +359,20 @@ private void fun13(String username, MultiPartFile file) {
 ![-w1654](media/16461289773252.jpg)
 ![-w1673](media/16461290010915.jpg)
 
+#资源文件开放
+在外部访问webapp文件夹里资源时, 也是通过localhost/resourcesPath这样的
+路径访问, DispatcherServlet会认为他要去寻找Controller里的RequestMapping方法
+所以要配置资源文件开放, 不用去到Controller上去寻找映射
+![img_33.png](img_33.png)
+mapping表示访问url的路径
+
+location表示类文件地址
+
+![img_34.png](img_34.png)
+上述配置表示: 外部访问有限走Controller的映射, 如果找不到, 使用Tomcat内部机制去寻找资源
+ 
+
+ 
 
 ## 多个文件上传
 只要form里有多个字段一样的, 然后再java那边用数据类型来接收这些字段即可
