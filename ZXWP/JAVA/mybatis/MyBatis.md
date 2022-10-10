@@ -17,7 +17,8 @@
 ![img_8.png](img_8.png)
 
 # 编写代码
-![img_9.png](img_9.png) 
+![img_9.png](img_9.png)
+1. Resources(注意是复数s)，在org.apache.ibatis.io.Resources;
 
 # 编写更新操作代码
 ![img_10.png](img_10.png)
@@ -55,3 +56,7 @@
 
 ##typeAliases标签(核心配置文件的)
 ![img_20.png](img_20.png)
+
+
+# 一对多的表映射
+![img_32.png](img_32.png)

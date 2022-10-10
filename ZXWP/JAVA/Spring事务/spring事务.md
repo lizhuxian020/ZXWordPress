@@ -21,6 +21,8 @@
 ![img_5.png](img_5.png)
 需要注意:
 1. 如果Dao层用的不是jdbc或mybatis, 则TransactionManager要改
+2. 配到这里，就可以手动获取容器，再通过容器获取target对象（也就是service对象）。即可实现事务管理（即：对target对象功能增强）
+3. 这里获取到的target对象跟自己new一个target对象不一样，通过容器获取的是target的增强对象（即代理对象），new一个对象是纯target对象，并没有增强
 
 ##配置事务的属性
 ![img_7.png](img_7.png)
