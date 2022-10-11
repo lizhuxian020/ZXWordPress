@@ -22,6 +22,8 @@
 
 # 编写更新操作代码
 ![img_10.png](img_10.png)
+> 注意！！： 这里是#{}，不是${}, 但都可以，如果paramType是int，则不能用${}, 只能用#{}
+
 ![img_11.png](img_11.png)
 1. 注意要提交事务, MyBatis默认是不提交事务的.
 2. 或者可以rollback
@@ -57,6 +59,3 @@
 ##typeAliases标签(核心配置文件的)
 ![img_20.png](img_20.png)
 
-
-# 一对多的表映射
-![img_32.png](img_32.png)

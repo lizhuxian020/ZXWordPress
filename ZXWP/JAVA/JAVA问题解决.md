@@ -17,3 +17,17 @@
             <version>1.9.6</version>
 </dependency>
 ```
+
+
+#问题
+```
+org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'as' in 'class java.lang.Integer'
+### Cause: org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'as' in 'class java.lang.Integer'
+```
+问题出现在这里
+![img_47.png](img_47.png)
+表示类Ingeter里没有as这个属性的getter方法
+但我们实际并不是要获取integer的as属性，而是把int当做变量使用
+
+##解决：把${as} 改为 #{as}
