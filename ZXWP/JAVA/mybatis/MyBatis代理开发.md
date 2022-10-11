@@ -51,7 +51,8 @@ separator: 分隔符
 1. 插件即增强，估计也是面向aop，在mybatis的基础上对功能增强
 2. 增强，即又包一层代理对象来强化
 3. 如上图所述，增强前是array，增强后是page对象
-4. PageHelper.startPage(1,2);第一页是1开始，不是0.填0的话就什么都没了
+4. ![img_46.png](img_46.png)
+5. PageHelper.startPage(1,2);第一页是1开始，不是0.填0的话就什么都没了
 
 
 
