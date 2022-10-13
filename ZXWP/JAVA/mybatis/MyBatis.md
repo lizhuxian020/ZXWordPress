@@ -48,6 +48,8 @@
 
 ##mapper标签
 ![img_17.png](img_17.png)
+![img_59.png](img_59.png)
+package标签：扫包，该包下所有mapper都被加载
 
 ##property标签
 ![img_18.png](img_18.png)
@@ -58,4 +60,6 @@
 
 ##typeAliases标签(核心配置文件的)
 ![img_20.png](img_20.png)
+![img_58.png](img_58.png) 
+package标签标识：该包下面所有类都自动加别名，名字就是类名，首字母大小写都行
 
