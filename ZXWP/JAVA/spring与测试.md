@@ -14,3 +14,7 @@
 
 指定配置类
 ![img_25.png](img_25.png)
+
+# 配置分页（失败了=。=）
+![img_52.png](img_52.png)
+![img_53.png](img_53.png)
