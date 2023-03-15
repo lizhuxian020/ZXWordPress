@@ -23,7 +23,7 @@ web.xml配置全局参数
 1. 在web.xml中配置Spring-web提供的监听器ContextLoaderListener
 2. 在web.xml中配置ApplicationContext的位置, 即上述的:全局变量contextConfiguration, 但跟上述不一样的是需要加classPath
 3. ![img_30.png](img_30.png)
-4. 使用WebApplicationContextUtils获取容器对象(ApplicationContext)
+4. 使用WebApplicationContextUtils获取容器对象(ApplicationCon  ext)
 
 #配置DispatcherServlet
 这个类在spring-webmvc包里
